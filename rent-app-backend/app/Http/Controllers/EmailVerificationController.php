@@ -24,16 +24,16 @@ class EmailVerificationController extends Controller
           $user = User::findOrFail($id);
 
     if (! hash_equals(sha1($user->email), $hash)) {
-       return redirect(config('app.frontend_url') . '/verify-result?status=expired');
+       return redirect(config('app.frontend_url') . '/');
     }
 
     if ($user->hasVerifiedEmail()) {
-       return redirect(config('app.frontend_url') . '/verify-result?status=verified');
+       return redirect(config('app.frontend_url') . '/');
     }
 
     $user->markEmailAsVerified();
     event(new Verified($user));
 
-        return redirect(config('app.frontend_url') . '/verify-result?status=success'); 
+        return redirect(config('app.frontend_url') . '/'); 
     }
 }
