@@ -1,30 +1,48 @@
 <template>
-    <form @submit.prevent="handleLogin" class="flex justify-center">
-        <fieldset class="fieldset bg-base-200 border-base-300 rounded-box w-xs border p-4">
-            <legend class="fieldset-legend">Login</legend>
-
-            <label class="label">Email</label>
-            <input v-model="formData.email" type="email" class="input" placeholder="Email" />
-
-            <label class="label">Password</label>
-            <input v-model="formData.password" type="password" class="input" placeholder="Password" />
-
-            <button type="submit" class="btn btn-primary mt-4">Login</button>
-        </fieldset>
+    <form @submit.prevent="handleLogin" class=" mx-auto mt-10 w-1/2 min-w-100 p-4">
+        <h1 class="text-2xl font-bold mb-6">Login Page</h1>
+        <p v-if="errors.user" class="mb-2 text-sm text-red-300">{{ errors.user[0] }}</p>
+        <p v-if="errors.email" class="mb-2 text-sm text-red-300">{{ errors.email[0] }}</p>
+        <input v-model="formData.email" autocomplete="email" type="email" placeholder="email"
+            class="input input-primary w-full mb-4" />
+        <p v-if="errors.password" class="mb-2 text-sm text-red-300">{{ errors.password[0] }}</p>
+        <input v-model="formData.password" autocomplete="current-password" type="password" placeholder="password"
+            class="input input-primary w-full mb-4" />
+        <button class="btn btn-primary w-full">Login </button>
+        <p class="text-center mt-5"> forgot password? <NuxtLink to="/forgot-password"
+                class="underline hover:text-blue-900 cursor-pointer"> reset password </NuxtLink>
+        </p>
     </form>
 </template>
 
 <script setup>
-definePageMeta({ layout: 'auth', middleware: 'sanctum:guest' });
-
-const { login } = useSanctumAuth()
+const { login, user } = useSanctumAuth()
 
 const formData = ref({
     email: '',
     password: '',
 })
 
+definePageMeta({
+    layout: 'auth',
+    middleware: 'sanctum:guest',
+});
+
+useHead({
+    title: 'Login Page',
+})
+
+const config = useRuntimeConfig()
+const client = useSanctumClient()
+
+const errors = ref({})
+
 const handleLogin = async () => {
-    await login(formData.value)
+    try {
+
+        await login(formData.value)
+    } catch (err) {
+        errors.value = err.response._data.errors
+    }
 }
 </script>
