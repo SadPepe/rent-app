@@ -10,7 +10,7 @@ export default defineNuxtConfig({
  },
 
   css: ["./app/tailwind.css"],
-  modules: ["nuxt-auth-sanctum"],
+  modules: ["nuxt-auth-sanctum", '@nuxt/ui'],
   sanctum: {
     baseUrl: "http://localhost:8000",
     endpoints: {

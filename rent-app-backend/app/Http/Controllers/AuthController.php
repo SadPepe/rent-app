@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\JsonResponse;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
@@ -14,7 +15,7 @@ class AuthController extends Controller
      * Регистрация пользователя
      *
      * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function register(Request $request){
         $feilds = $request->validate([
@@ -39,7 +40,7 @@ class AuthController extends Controller
      * Аутентификация пользователя
      *
      * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function login(Request $request){
         $feilds = $request->validate([
@@ -66,7 +67,7 @@ class AuthController extends Controller
      * Выход из системы
      *
      * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function logout(Request $request){
         // Выходим из системы
