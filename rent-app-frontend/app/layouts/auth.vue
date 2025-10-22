@@ -1,7 +1,12 @@
 <template>
-    <div class="container mx-auto p-8">
+
         <slot />
-    </div>
+
 </template>
 
-<script setup></script>
+<script setup>
+const { logout } = useSanctumAuth()
+const handleLogout = async () => {
+  await logout()
+}
+</script>

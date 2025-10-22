@@ -1,5 +1,4 @@
 @import "tailwindcss";
 @plugin "daisyui" {
-    themes: light --default, lemonade, retro;
+    themes: all;
 }
-@import "@nuxt/ui";

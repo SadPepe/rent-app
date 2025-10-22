@@ -2,15 +2,15 @@
 import tailwindcss from "@tailwindcss/vite";
 
 export default defineNuxtConfig({
-  compatibilityDate: '2025-07-15',
+  compatibilityDate: "2025-07-15",
   devtools: { enabled: true },
 
   vite: {
-   plugins: [tailwindcss()],
- },
+    plugins: [tailwindcss()],
+  },
 
   css: ["./app/tailwind.css"],
-  modules: ["nuxt-auth-sanctum", '@nuxt/ui'],
+  modules: ["nuxt-auth-sanctum", "@nuxt/icon"],
   sanctum: {
     baseUrl: "http://localhost:8000",
     endpoints: {
@@ -27,4 +27,4 @@ export default defineNuxtConfig({
       baseUrl: "http://localhost:8000",
     },
   },
-})
+});

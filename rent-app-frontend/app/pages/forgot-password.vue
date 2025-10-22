@@ -13,7 +13,7 @@
 <script setup>
 
 definePageMeta({
-    layout: 'auth',
+    layout: 'guest',
     middleware: 'sanctum:guest'
 })
 
