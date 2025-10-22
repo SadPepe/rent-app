@@ -7,21 +7,8 @@ const isAuthenticated = computed(() => !!auth.user.value)
 
 const items = computed(() => {
   const baseItems = [
-    {
-      label: 'Features',
-      to: '#features',
-      active: activeHeadings.value.includes('features') && !activeHeadings.value.includes('pricing')
-    },
-    {
-      label: 'Pricing',
-      to: '#pricing',
-      active: activeHeadings.value.includes('pricing')
-    },
-    {
-      label: 'Testimonials',
-      to: '#testimonials',
-      active: activeHeadings.value.includes('testimonials') && !activeHeadings.value.includes('pricing')
-    }
+
+
   ]
 
   // Добавляем кнопки только если пользователь НЕ авторизован
@@ -75,33 +62,13 @@ nuxtApp.hooks.hookOnce('page:finish', () => {
     </template>
 
     <template #right>
-      <UNavigationMenu
-        :items="items"
-        variant="link"
-        class="hidden lg:block"
-      />
-
-      <UButton
-        label="Download App"
-        variant="subtle"
-        class="hidden lg:block"
-      />
+      <UNavigationMenu :items="items" variant="link" class="hidden lg:block" />
 
       <UColorModeButton />
     </template>
 
     <template #body>
-      <UNavigationMenu
-        :items="items"
-        orientation="vertical"
-        class="-mx-2.5"
-      />
-      <UButton
-        class="mt-4"
-        label="Download App"
-        variant="subtle"
-        block
-      />
+      <UNavigationMenu :items="items" orientation="vertical" class="-mx-2.5" />
     </template>
   </UHeader>
 </template>
