@@ -1,6 +1,6 @@
 <script setup></script>
 <template>
-<Html data-theme="caramellatte">
+<Html data-theme="dark">
   <navbar />
   <NuxtLayout>
     <NuxtPage />

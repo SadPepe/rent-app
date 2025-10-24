@@ -26,10 +26,6 @@ export default defineNuxtConfig({
     // Устанавливаем наш провайдер как провайдер по умолчанию
     provider: 'backend',
   },
-  swiper: {
-    // Глобально подключаем модули Swiper
-    modules: ['navigation', 'pagination', 'autoplay', 'effect-creative'],
-  }
   sanctum: {
     baseUrl: "http://localhost:8000",
     endpoints: {
