@@ -10,7 +10,7 @@ export default defineNuxtConfig({
   },
 
   css: ["./app/tailwind.css"],
-  modules: ["nuxt-auth-sanctum", "@nuxt/icon", "@nuxt/image"],
+  modules: ["nuxt-auth-sanctum", "@nuxt/icon", "@nuxt/image", "@nuxt/ui"],
   image: {
     // Регистрируем наш новый кастомный провайдер
     providers: {

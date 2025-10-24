@@ -1,9 +1,40 @@
 <template>
+<div v-if="houses[9]?.photos.length > 0" class="mb-8">
+      <h2 class="text-2xl font-bold mb-4">Test Carousel</h2>
+      <UCarousel
+        v-if="houses[9]?.photos.length > 0"
+        :items="houses[9].photos"
+        :ui="{ item: 'basis-full' }"
+        arrows
+        class="aspect-square mx-auto"
+      >
+        <template #default="{ item }">
+          <img :src="item.url" class="w-full h-full object-cover" draggable="false">
+        </template>
+
+        <template #prev="{ onClick }">
+          <button @click="onClick" class="absolute top-1/2 -translate-y-1/2 left-4 p-2 bg-gray-500 text-white rounded-full z-10">
+            &lt;
+          </button>
+        </template>
+
+        <template #next="{ onClick }">
+          <button @click="onClick" class="absolute top-1/2 -translate-y-1/2 right-4 p-2 bg-gray-500 text-white rounded-full z-10">
+            &gt;
+          </button>
+        </template>
+      </UCarousel>
+    </div>
+
   <div class="hero min-h-[50vh] bg-base-100">
-    <div class="hero-content flex-col lg:flex-row-reverse">
-      <img src="/img/hero.jpg" class="max-w-lg rounded-lg shadow-2xl" />
-      <div>
-        <h1 class="text-5xl font-bold text-accent">
+    <!-- СЕКЦИЯ HERO -->  
+    <div class="hero-content flex-col lg:flex-row-reverse p-2">
+      <img
+        src="/img/hero.jpg"
+        class="w-full max-w-sm rounded-lg shadow-2xl lg:max-w-lg"
+      />
+      <div class="text-center lg:text-left">
+        <h1 class="text-3xl font-bold text-accent sm:text-5xl">
           Отдых на природе в уютных загородных домах
         </h1>
         <p class="py-6 text-secondary">
@@ -13,62 +44,49 @@
       </div>
     </div>
   </div>
-
+  <!--СЕКЦИЯ С ДОМАМИ-->
   <section class="mb-12 max-w-7xl mx-auto">
+    
     <h2 class="text-3xl font-bold mb-6 text-center">Наши дома</h2>
     <div v-if="houses && houses.length" class="flex flex-col gap-8">
       <div
-        v-for="(house, idx) in houses"
+        v-for="house in houses"
         :key="house.id"
-        class="bg-base-200 rounded-2xl shadow-lg flex flex-row overflow-hidden min-h-[350px] max-h-[500px]"
+        class="card lg:card-side bg-base-100 shadow-sm"
       >
         <!-- Карусель -->
-        <div
-          class="relative w-2/5 flex items-center justify-center bg-base-200"
-        >
-          <NuxtImg
-            v-if="
-              house.photos &&
-              house.photos.length > 0 &&
-              carouselIndexes[idx] !== undefined
-            "
-            :src="house.photos[carouselIndexes[idx]]"
-            :alt="house.name"
-            class="object-cover w-full h-[350px] md:h-[450px] rounded-l-2xl transition-all duration-500"
-          />
-          <button
-            class="absolute left-2 top-1/2 -translate-y-1/2 text-neutral-content bg-neutral/80 rounded-full p-2 shadow hover:bg-neutral"
-            @click="prevPhoto(idx)"
-            aria-label="Предыдущее фото"
+   <figure class="">
+          <UCarousel
+            v-if="house.photos && house.photos.length > 0"
+            v-slot="{ item }"
+            arrows
+            :items="house.photos"
+            class="w-full max-w-xs mx-auto"
           >
-            ‹
-          </button>
-          <button
-            class="absolute right-2 top-1/2 -translate-y-1/2 text-neutral-content bg-neutral/80 rounded-full p-2 shadow hover:bg-neutral"
-            @click="nextPhoto(idx)"
-            aria-label="Следующее фото"
-          >
-            ›
-          </button>
-        </div>
+            <NuxtImg
+              :src="item"
+              alt="фото"
+              class="w-full h-full object-cover rounded-lg"
+              width="448"
+              height="448"
+            />
+          </UCarousel>
+        </figure>
         <!-- Информация -->
-        <div class="w-3/5 p-8 flex flex-col justify-between">
-          <div>
-            <h3 class="text-2xl font-bold mb-2 text-base-content">
-              {{ house.name }}
-            </h3>
-            <p class="text-base-content mb-4">{{ house.description }}</p>
-            <p class="text-base-content mb-4">{{ house.address }}</p>
-            <p class="text-base-content mb-4">Спальни: {{ house.bedrooms }}</p>
-            <p class="text-base-content mb-4">
-              Ванные комнаты: {{ house.bathrooms }}
-            </p>
-            <p class="text-base-content mb-4">Гостей: {{ house.max_guests }}</p>
-          </div>
-          <div class="flex items-end justify-between">
-            <span class="text-xl font-semibold text-accent">{{
-              house.price_per_day
-            }}</span>
+        <div class="card-body">
+          <h3 class="text-2xl font-bold mb-2 text-base-content">
+            {{ house.name }}
+          </h3>
+          <p class="text-base-content mb-4">{{ house.description }}</p>
+          <p class="text-base-content mb-4">{{ house.address }}</p>
+          <p class="text-base-content mb-4">Спальни: {{ house.bedrooms }}</p>
+          <p class="text-base-content mb-4">
+            Ванные комнаты: {{ house.bathrooms }}
+          </p>
+          <p class="text-base-content mb-4">Гостей: {{ house.max_guests }}</p>
+
+          <div class="card-actions justify-end">
+            <span class="text-xl font-semibold text-accent">{{house.price_per_day}}</span>
             <button class="btn btn-primary text-primary-content">
               Забронировать
             </button>
@@ -76,8 +94,16 @@
         </div>
       </div>
     </div>
+    <div v-else>
+      <p class="text-center text-secondary">
+        Загрузка домов... или подходящих вариантов не найдено.
+      </p>
+      <p class="text-center text-sm text-base-content">
+        (Количество загруженных домов: {{ houses.length }})
+      </p>
+    </div>
   </section>
-
+  <!--СЕКЦИЯ С ПРЕИМУЩИСТВАМИ-->
   <section class="py-20 bg-base-100">
     <div class="container mx-auto px-4">
       <div class="text-center mb-16">
@@ -108,9 +134,10 @@
       </div>
     </div>
   </section>
-
-  <!--О нас-->
-  <div class="bg-base-100 min-h-[50vh] flex items-center justify-center p-4">
+  <!--СЕКЦИЯ О НАС-->
+  <section
+    class="bg-base-100 min-h-[50vh] flex items-center justify-center p-4"
+  >
     <section class="py-20 bg-base-200 max-w-screen-2xl">
       <div class="mx-auto px-4 sm:px-6 lg:px-8">
         <div class="mb-16 text-center">
@@ -290,14 +317,17 @@
         </div>
       </div>
     </section>
-  </div>
+  </section>
 </template>
 
 <script setup lang="ts">
 definePageMeta({
   layout: "guest",
 });
-
+defineProps<{
+  prevIcon?: string
+  nextIcon?: string
+}>()
 import { ref, onMounted } from "vue";
 
 interface House {
@@ -366,22 +396,6 @@ const getCardClass = (index: number) => {
 
 // --- Реактивные переменные для домов ---
 const houses = ref<House[]>([]);
-const carouselIndexes = ref<number[]>([]);
-
-// --- Хук onMounted для получения данных ---
-const nextImage = (houseIndex: number, photosCount: number) => {
-  if (photosCount > 0) {
-    carouselIndexes.value[houseIndex] =
-      (carouselIndexes.value[houseIndex] + 1) % photosCount;
-  }
-};
-
-const prevImage = (houseIndex: number, photosCount: number) => {
-  if (photosCount > 0) {
-    carouselIndexes.value[houseIndex] =
-      (carouselIndexes.value[houseIndex] - 1 + photosCount) % photosCount;
-  }
-};
 
 onMounted(async () => {
   console.log("Fetching houses...");
@@ -391,7 +405,7 @@ onMounted(async () => {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
     const responseData = await response.json();
-    console.log("API response received:", responseData);
+    console.log("Полученные данные с сервера:", responseData);
 
     let housesData: House[] = [];
 
@@ -406,14 +420,9 @@ onMounted(async () => {
       console.error("Unexpected data structure:", responseData);
     }
 
-    console.log("Processed houses data:", housesData);
+    console.log("Данные для присвоения в houses.value:", housesData);
     houses.value = housesData;
-
-    // Инициализируем индексы карусели
-    if (housesData.length > 0) {
-      carouselIndexes.value = new Array(housesData.length).fill(0);
-      console.log("Carousel indexes initialized:", carouselIndexes.value);
-    }
+    console.log("Значение houses.value после присвоения:", houses.value);
   } catch (error) {
     console.error("Failed to fetch houses:", error);
   }

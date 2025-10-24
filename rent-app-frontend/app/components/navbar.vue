@@ -7,24 +7,25 @@
         </button>
 
         <ul
-          class="dropdown dropdown-start menu menu-lg w-52 rounded-box bg-base-100 shadow-sm"
+          class="dropdown dropdown-start menu menu-lg w-52 rounded-box bg-base-100 shadow-md"
           popover
           id="popover-1"
           style="position-anchor: --anchor-1"
         >
-          <li><NuxtLink to="/" class="">Дома</NuxtLink></li>
-          <li><NuxtLink to="/" class="">О проекте</NuxtLink></li>
-          <li><NuxtLink to="/" class="">Контакты</NuxtLink></li>
-
+          <li class="bg-base-200 rounded-md m-4"><NuxtLink to="/" class="">Дома</NuxtLink></li>
+          <li class="bg-base-200 rounded-md m-4"><NuxtLink to="/" class="">О проекте</NuxtLink></li>
+          <li class="bg-base-200 rounded-md m-4"><NuxtLink to="/" class="">Контакты</NuxtLink></li>
+   
           <template v-if="isAuthenticated">
-            <li><NuxtLink to="/" class="">Профиль</NuxtLink></li>
-            <li><button @click="handleLogout" class="">Выйти</button></li>
+            <li class="bg-base-200 rounded-md m-4"><NuxtLink to="/" class="">Профиль</NuxtLink></li>
+            <li class="bg-base-200 rounded-md m-4"><button @click="handleLogout" class="">Выйти</button></li>
           </template>
 
           <template v-else>
-            <li><NuxtLink to="/login" class="">Войти</NuxtLink></li>
-            <li><NuxtLink to="/register" class="">Регистрация</NuxtLink></li>
+            <li class="bg-base-200 rounded-md m-4"><NuxtLink to="/login" class="">Войти</NuxtLink></li>
+            <li class="bg-base-200 rounded-md m-4"><NuxtLink to="/register" class="">Регистрация</NuxtLink></li>
           </template>
+       
         </ul>
       </div>
       <div class="flex-1 flex justify-start">
@@ -39,26 +40,42 @@
         </ul>
       </div>
       <div class="flex flex-1 justify-end">
+        <ClientOnly>
         <template v-if="!isAuthenticated">
-          <a
+             <button
             onclick="my_modal_2.showModal()"
-            class="cursor-pointer hover:scale-105 transition duration-200"
+            class="btn hover:scale-105 transition duration-200"
           >
             Вход
-            <div
-              class="absolute -left-6 top-1/2 -translate-y-1/2 w-12 h-3 bg-zinc-100 blur-[18px] group-hover:scale-[3] opacity-0 group-hover:opacity-100 transition duration-1000"
-            ></div>
-          </a>
-          <dialog id="my_modal_2" class="modal modal-bottom sm:modal-middle">
-            <div class="modal-box bg-base-100">
+          </button>
+          <dialog id="my_modal_2" class="modal">
+            <div class="modal-box bg-base-100 relative">
+              <!-- Форма только для кнопки закрытия -->
+              <form method="dialog">
+                <button
+                  class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
+                >
+                  ✕
+                </button>
+              </form>
+
+              <!-- Контент модального окна НЕ внутри формы -->
               <div class="flex justify-center mb-4 items-center gap-2">
-                <span :class="!isRegisterForm ? 'text-primary font-bold' : 'text-accent'">Вход</span>
+                <span
+                  :class="
+                    !isRegisterForm ? 'text-primary font-bold' : 'text-accent'
+                  "
+                  >Вход</span
+                >
                 <input
                   type="checkbox"
                   class="toggle"
                   v-model="isRegisterForm"
                 />
-                <span :class="isRegisterForm ? 'text-primary font-bold' : 'text-accent'"
+                <span
+                  :class="
+                    isRegisterForm ? 'text-primary font-bold' : 'text-accent'
+                  "
                   >Регистрация</span
                 >
               </div>
@@ -66,10 +83,11 @@
               <Register v-if="isRegisterForm"></Register>
             </div>
             <form method="dialog" class="modal-backdrop">
+              <button>close</button>
             </form>
           </dialog>
         </template>
-
+        </ClientOnly>
         <div class="hidden md:flex">
           <ul class="menu menu-horizontal px-1">
             <template v-if="isAuthenticated">
