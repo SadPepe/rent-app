@@ -1,36 +1,36 @@
 <template>
-<div class="min-h-[450px]">
-  <h4 class="block text-xl font-medium mb-4 text-slate-800">Вход</h4>
+  <div class="min-h-[450px]">
+    <h4 class="block text-xl font-bold text-center text-base-content">Вход</h4>
 
-  <form @submit.prevent="handleLogin" class="">
-    <div class="mb-1 flex flex-col gap-6">
-    
-      <div class="w-full min-w-[200px]">
-        <label class="block mb-2 text-sm text-slate-600"> Email </label>
-        <input
-          v-model="formData.email"
-          type="email"
-          class="w-full bg-transparent placeholder:text-slate-400 text-slate-700 text-sm border border-slate-200 rounded-md px-3 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300 shadow-sm focus:shadow"
-          placeholder="Ваша почта"
-        />
+    <form @submit.prevent="handleLogin" class="">
+      <div class="flex flex-col">
+        <fieldset class="fieldset">
+          <legend class="fieldset-legend text-lg">Email</legend>
+          <input
+            v-model="formData.email"
+            type="email"
+            class="input w-full"
+            placeholder="Type here"
+          />
+        </fieldset>
+        <fieldset class="fieldset">
+          <legend class="fieldset-legend text-lg">Пароль</legend>
+          <input
+            v-model="formData.password"
+            type="password"
+            class="input w-full"
+            placeholder="Type here"
+          />
+        </fieldset>
       </div>
-      <div class="w-full min-w-[200px]">
-        <label class="block mb-2 text-sm text-slate-600"> Пароль </label>
-        <input
-           v-model="formData.password"
-          type="password"
-          class="w-full bg-transparent placeholder:text-slate-400 text-slate-700 text-sm border border-slate-200 rounded-md px-3 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300 shadow-sm focus:shadow"
-        />
-      </div>
-    </div>
 
-    <button
-      class="mt-4 w-full rounded-md bg-slate-800 py-2 px-4 border border-transparent text-center text-sm text-white transition-all shadow-md hover:shadow-lg focus:bg-slate-700 focus:shadow-none active:bg-slate-700 hover:bg-slate-700 active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-      type="submit"
-    >
-      Войти
-    </button>
-  </form>
+      <button
+        class="bg-neutral btn text-neutral-content mt-2 w-full hover:bg-neutral-content hover:text-neutral"
+        type="submit"
+      >
+        Войти
+      </button>
+    </form>
   </div>
 </template>
 
@@ -43,7 +43,7 @@ const formData = ref({
 });
 
 const errors = ref({});
-const { login } = useSanctumAuth()
+const { login } = useSanctumAuth();
 
 const handleLogin = async () => {
   try {

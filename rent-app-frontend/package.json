@@ -12,6 +12,7 @@
   "dependencies": {
     "@mdi/js": "^7.4.47",
     "@nuxt/icon": "^2.1.0",
+    "@nuxt/image": "^1.11.0",
     "@nuxt/ui": "^4.0.1",
     "@tailwindcss/vite": "^4.1.15",
     "nuxt": "^4.1.3",

@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EmailVerificationController;
 use App\Http\Controllers\PasswordResetController;
+use App\Http\Controllers\HouseController;
 
 
 Route::get('/user', function (Request $request) {
@@ -13,6 +14,8 @@ Route::get('/user', function (Request $request) {
     }
     return $request->user();
 })->middleware('auth:sanctum');
+
+Route::get('/houses', [HouseController::class, 'index']);
 
 Route::post('/register' , [AuthController::class, 'register']);
 Route::post('/login' , [AuthController::class, 'login']);

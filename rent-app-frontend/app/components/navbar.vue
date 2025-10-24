@@ -1,6 +1,6 @@
 <template>
   <div class="bg-base-100 shadow-sm">
-    <div class="navbar max-w-screen-xl mx-auto">
+    <div class="navbar max-w-7xl mx-auto">
       <div class="md:hidden">
         <button popovertarget="popover-1" style="anchor-name: --anchor-1">
           <Icon name="meteor-icons:bars" size="24" />
@@ -12,12 +12,12 @@
           id="popover-1"
           style="position-anchor: --anchor-1"
         >
-          <li><NuxtLink to="/houses" class="">Дома</NuxtLink></li>
-          <li><NuxtLink to="/about" class="">О проекте</NuxtLink></li>
-          <li><NuxtLink to="/contacts" class="">Контакты</NuxtLink></li>
+          <li><NuxtLink to="/" class="">Дома</NuxtLink></li>
+          <li><NuxtLink to="/" class="">О проекте</NuxtLink></li>
+          <li><NuxtLink to="/" class="">Контакты</NuxtLink></li>
 
           <template v-if="isAuthenticated">
-            <li><NuxtLink to="/profile" class="">Профиль</NuxtLink></li>
+            <li><NuxtLink to="/" class="">Профиль</NuxtLink></li>
             <li><button @click="handleLogout" class="">Выйти</button></li>
           </template>
 
@@ -33,9 +33,9 @@
 
       <div class="hidden md:flex flex-1 justify-center">
         <ul class="menu menu-horizontal px-1">
-          <li><NuxtLink to="/houses" class="">Дома</NuxtLink></li>
-          <li><NuxtLink to="/about" class="">О проекте</NuxtLink></li>
-          <li><NuxtLink to="/contacts" class="">Контакты</NuxtLink></li>
+          <li><NuxtLink to="/" class="">Дома</NuxtLink></li>
+          <li><NuxtLink to="/" class="">О проекте</NuxtLink></li>
+          <li><NuxtLink to="/" class="">Контакты</NuxtLink></li>
         </ul>
       </div>
       <div class="flex flex-1 justify-end">
@@ -50,15 +50,15 @@
             ></div>
           </a>
           <dialog id="my_modal_2" class="modal modal-bottom sm:modal-middle">
-            <div class="modal-box">
+            <div class="modal-box bg-base-100">
               <div class="flex justify-center mb-4 items-center gap-2">
-                <span :class="!isRegisterForm ? 'font-bold' : ''">Вход</span>
+                <span :class="!isRegisterForm ? 'text-primary font-bold' : 'text-accent'">Вход</span>
                 <input
                   type="checkbox"
                   class="toggle"
                   v-model="isRegisterForm"
                 />
-                <span :class="isRegisterForm ? 'font-bold' : ''"
+                <span :class="isRegisterForm ? 'text-primary font-bold' : 'text-accent'"
                   >Регистрация</span
                 >
               </div>
@@ -66,7 +66,6 @@
               <Register v-if="isRegisterForm"></Register>
             </div>
             <form method="dialog" class="modal-backdrop">
-              <button>close</button>
             </form>
           </dialog>
         </template>

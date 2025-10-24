@@ -67,7 +67,7 @@ class MyWidget extends StatsOverviewWidget
             ->whereIn('status', ['completed', 'active'])
             ->where('start_date', '<=', $periodEnd)
             ->where('end_date', '>=', $periodStart)
-            ->sum(DB::raw('DATEDIFF(LEAST(end_date, \'' . $periodEnd->toDateString() . '\'), GREATEST(start_date, \'' . $periodStart->toDateString() . '\')) + 1'));
+            ->sum(DB::raw("(LEAST(end_date, '{$periodEnd->toDateString()}')::date - GREATEST(start_date, '{$periodStart->toDateString()}')::date + 1)::integer"));
 
         $totalAvailableDays = $housesCount * $daysInPeriod;
         $occupancy = $totalAvailableDays > 0 ? ($totalBookedDays / $totalAvailableDays) * 100 : 0;
