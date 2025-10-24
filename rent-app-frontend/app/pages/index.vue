@@ -1,38 +1,8 @@
 <template>
-<div v-if="houses[9]?.photos.length > 0" class="mb-8">
-      <h2 class="text-2xl font-bold mb-4">Test Carousel</h2>
-      <UCarousel
-        v-if="houses[9]?.photos.length > 0"
-        :items="houses[9].photos"
-        :ui="{ item: 'basis-full' }"
-        arrows
-        class="aspect-square mx-auto"
-      >
-        <template #default="{ item }">
-          <img :src="item.url" class="w-full h-full object-cover" draggable="false">
-        </template>
-
-        <template #prev="{ onClick }">
-          <button @click="onClick" class="absolute top-1/2 -translate-y-1/2 left-4 p-2 bg-gray-500 text-white rounded-full z-10">
-            &lt;
-          </button>
-        </template>
-
-        <template #next="{ onClick }">
-          <button @click="onClick" class="absolute top-1/2 -translate-y-1/2 right-4 p-2 bg-gray-500 text-white rounded-full z-10">
-            &gt;
-          </button>
-        </template>
-      </UCarousel>
-    </div>
-
   <div class="hero min-h-[50vh] bg-base-100">
-    <!-- СЕКЦИЯ HERO -->  
+    <!-- СЕКЦИЯ HERO -->
     <div class="hero-content flex-col lg:flex-row-reverse p-2">
-      <img
-        src="/img/hero.jpg"
-        class="w-full max-w-sm rounded-lg shadow-2xl lg:max-w-lg"
-      />
+      <img src="/img/hero.jpg" class="w-full max-w-sm rounded-lg shadow-2xl lg:max-w-lg" />
       <div class="text-center lg:text-left">
         <h1 class="text-3xl font-bold text-accent sm:text-5xl">
           Отдых на природе в уютных загородных домах
@@ -46,34 +16,47 @@
   </div>
   <!--СЕКЦИЯ С ДОМАМИ-->
   <section class="mb-12 max-w-7xl mx-auto">
-    
+
     <h2 class="text-3xl font-bold mb-6 text-center">Наши дома</h2>
     <div v-if="houses && houses.length" class="flex flex-col gap-8">
       <div
         v-for="house in houses"
         :key="house.id"
-        class="card lg:card-side bg-base-100 shadow-sm"
+        class="card lg:card-side bg-base-200 shadow-sm"
       >
-        <!-- Карусель -->
-   <figure class="">
-          <UCarousel
-            v-if="house.photos && house.photos.length > 0"
-            v-slot="{ item }"
-            arrows
-            :items="house.photos"
-            class="w-full max-w-xs mx-auto"
-          >
-            <NuxtImg
-              :src="item"
-              alt="фото"
-              class="w-full h-full object-cover rounded-lg"
-              width="448"
-              height="448"
-            />
-          </UCarousel>
+        <Swiper
+          v-if="house.photos && house.photos.length"
+          class="w-full lg:w-1/2 h-64 lg:h-auto"
+          :slides-per-view="1"
+          loop
+          navigation
+          :pagination="{ clickable: true }"
+          :autoplay="{
+            delay: 5000,
+            disableOnInteraction: true,
+          }"
+          effect="creative"
+          :creative-effect="{
+            prev: {
+              shadow: true,
+              translate: [0, 0, -400],
+            },
+            next: {
+              translate: ['100%', 0, 0],
+            },
+          }"
+        >
+          <SwiperSlide v-for="(photo, index) in house.photos" :key="index">
+            <img :src="photo" :alt="`Photo of ${house.name} ${index + 1}`" class="object-cover w-full h-full" />
+          </SwiperSlide>
+        </Swiper>
+        <figure v-else class="w-full lg:w-1/2 h-64 lg:h-auto bg-gray-300 flex items-center justify-center">
+          <span class="text-gray-500">No image</span>
         </figure>
+
         <!-- Информация -->
         <div class="card-body">
+          <h2 class="card-title">{{ house.name }}</h2>
           <h3 class="text-2xl font-bold mb-2 text-base-content">
             {{ house.name }}
           </h3>
@@ -86,7 +69,7 @@
           <p class="text-base-content mb-4">Гостей: {{ house.max_guests }}</p>
 
           <div class="card-actions justify-end">
-            <span class="text-xl font-semibold text-accent">{{house.price_per_day}}</span>
+            <span class="text-xl font-semibold text-accent">{{ house.price_per_day }}</span>
             <button class="btn btn-primary text-primary-content">
               Забронировать
             </button>
@@ -96,58 +79,23 @@
     </div>
     <div v-else>
       <p class="text-center text-secondary">
-        Загрузка домов... или подходящих вариантов не найдено.
+        Загрузка домов...
       </p>
       <p class="text-center text-sm text-base-content">
         (Количество загруженных домов: {{ houses.length }})
       </p>
     </div>
   </section>
-  <!--СЕКЦИЯ С ПРЕИМУЩИСТВАМИ-->
-  <section class="py-20 bg-base-100">
-    <div class="container mx-auto px-4">
-      <div class="text-center mb-16">
-        <span
-          class="text-secondary font-semibold uppercase tracking-wide text-sm"
-        >
-          Наши преимущества
-        </span>
-        <h2 class="text-4xl md:text-5xl font-bold text-primary mt-2 mb-4">
-          Отдых, который вы заслуживаете
-        </h2>
-      </div>
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-6xl mx-auto">
-        <div
-          v-for="(benefit, index) in mainBenefits"
-          :key="benefit.id"
-          class="feature-card bg-base-200"
-          :class="getCardClass(index)"
-        >
-          <div class="feature-icon">
-            <Icon :name="benefit.icon" />
-          </div>
-          <div>
-            <h3 class="feature-title">{{ benefit.title }}</h3>
-            <p class="feature-description">{{ benefit.description }}</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+
   <!--СЕКЦИЯ О НАС-->
-  <section
-    class="bg-base-100 min-h-[50vh] flex items-center justify-center p-4"
-  >
+  <section class="bg-base-100 min-h-[50vh] flex items-center justify-center p-4">
     <section class="py-20 bg-base-200 max-w-screen-2xl">
       <div class="mx-auto px-4 sm:px-6 lg:px-8">
         <div class="mb-16 text-center">
-          <div
-            :class="{
-              'opacity-100 translate-y-0': inView,
-              'opacity-0 translate-y-8': !inView,
-            }"
-            class="transition-all duration-1000 ease-out"
-          >
+          <div :class="{
+            'opacity-100 translate-y-0': inView,
+            'opacity-0 translate-y-8': !inView,
+          }" class="transition-all duration-1000 ease-out">
             <h2 class="mb-4 text-4xl font-bold text-primary sm:text-5xl">
               Аренда загородных домов на природе
             </h2>
@@ -160,13 +108,10 @@
         </div>
         <div class="items-center grid gap-16 mb-20 lg:grid-cols-2">
           <div class="space-y-8">
-            <div
-              :class="{
-                'opacity-100 translate-y-0': inView,
-                'opacity-0 translate-y-8': !inView,
-              }"
-              class="transition-all duration-1000 ease-out delay-200"
-            >
+            <div :class="{
+              'opacity-100 translate-y-0': inView,
+              'opacity-0 translate-y-8': !inView,
+            }" class="transition-all duration-1000 ease-out delay-200">
               <h3 class="mb-6 text-3xl font-bold text-primary">
                 Ваш отдых начинается здесь
               </h3>
@@ -181,30 +126,15 @@
                 необходимым для комфортного проживания и отдыха на природе.
               </p>
             </div>
-            <div
-              :class="{
-                'opacity-100 translate-y-0': inView,
-                'opacity-0 translate-y-8': !inView,
-              }"
-              class="transition-all duration-1000 ease-out delay-200"
-            >
+            <div :class="{
+              'opacity-100 translate-y-0': inView,
+              'opacity-0 translate-y-8': !inView,
+            }" class="transition-all duration-1000 ease-out delay-200">
               <div class="space-y-4">
                 <div class="items-start space-x-4 rtl:space-x-reverse flex">
-                  <div
-                    class="shrink-0 items-center justify-center flex w-8 h-8 rounded-full bg-primary"
-                  >
-                    <svg
-                      class="w-4 h-4 text-secondary-content"
-                      fill="none"
-                      stroke="currentColor"
-                      viewbox="0 0 24 24"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M5 13l4 4L19 7"
-                      ></path>
+                  <div class="shrink-0 items-center justify-center flex w-8 h-8 rounded-full bg-primary">
+                    <svg class="w-4 h-4 text-secondary-content" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                     </svg>
                   </div>
                   <div>
@@ -217,21 +147,9 @@
                   </div>
                 </div>
                 <div class="items-start space-x-4 rtl:space-x-reverse flex">
-                  <div
-                    class="shrink-0 items-center justify-center flex w-8 h-8 rounded-full bg-primary"
-                  >
-                    <svg
-                      class="w-4 h-4 text-secondary-content"
-                      fill="none"
-                      stroke="currentColor"
-                      viewbox="0 0 24 24"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M5 13l4 4L19 7"
-                      ></path>
+                  <div class="shrink-0 items-center justify-center flex w-8 h-8 rounded-full bg-primary">
+                    <svg class="w-4 h-4 text-secondary-content" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                     </svg>
                   </div>
                   <div>
@@ -244,21 +162,9 @@
                   </div>
                 </div>
                 <div class="items-start space-x-4 rtl:space-x-reverse flex">
-                  <div
-                    class="shrink-0 items-center justify-center flex w-8 h-8 rounded-full bg-primary"
-                  >
-                    <svg
-                      class="w-4 h-4 text-secondary-content"
-                      fill="none"
-                      stroke="currentColor"
-                      viewbox="0 0 24 24"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M5 13l4 4L19 7"
-                      ></path>
+                  <div class="shrink-0 items-center justify-center flex w-8 h-8 rounded-full bg-primary">
+                    <svg class="w-4 h-4 text-secondary-content" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                     </svg>
                   </div>
                   <div>
@@ -274,23 +180,16 @@
             </div>
           </div>
           <div class="relative">
-            <div
-              :class="{
-                'opacity-100 scale-100': inView,
-                'opacity-0 scale-95': !inView,
-              }"
-              class="transition-all duration-1000 ease-out delay-300"
-            >
+            <div :class="{
+              'opacity-100 scale-100': inView,
+              'opacity-0 scale-95': !inView,
+            }" class="transition-all duration-1000 ease-out delay-300">
               <div class="relative overflow-hidden rounded-3xl shadow-2xl">
                 <img
                   src="https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
-                  alt="Загородный дом"
-                  class="object-cover w-full h-96"
-                />
+                  alt="Загородный дом" class="object-cover w-full h-96" />
                 <div class="absolute bottom-6 left-6 right-6">
-                  <div
-                    class="backdrop-blur-sm p-6 rounded-xl bg-white shadow-lg"
-                  >
+                  <div class="backdrop-blur-sm p-6 rounded-xl bg-white shadow-lg">
                     <div class="grid grid-cols-3 gap-4 text-center">
                       <div>
                         <div class="text-2xl font-bold text-accent">100+</div>
@@ -321,15 +220,19 @@
 </template>
 
 <script setup lang="ts">
+import { ref, onMounted } from "vue";
+
+// --- Метаданные страницы и пропсы ---
 definePageMeta({
   layout: "guest",
 });
-defineProps<{
-  prevIcon?: string
-  nextIcon?: string
-}>()
-import { ref, onMounted } from "vue";
 
+defineProps<{
+  prevIcon?: string;
+  nextIcon?: string;
+}>();
+
+// --- Типы данных ---
 interface House {
   id: number;
   name: string;
@@ -343,60 +246,16 @@ interface House {
   is_active: boolean;
   created_at: string;
   updated_at: string;
-  photos: string[] | null; // Может быть массивом строк или null
+  photos: string[] | null;
 }
 
-interface Benefit {
-  id: number;
-  icon: string;
-  title: string;
-  description: string;
-  features?: string[];
-}
+// --- Переменные для анимаций и контента ---
 const inView = ref(false);
-const mainBenefits = [
-  {
-    id: 1,
-    icon: "mdi:home-search",
-    title: "Легкий поиск",
-    description: "Умная система подбора домов по вашим критериям",
-  },
-  {
-    id: 2,
-    icon: "mdi:calendar-text",
-    title: "Мгновенное бронирование",
-    description: "Бронируйте онлайн без ожидания подтверждения",
-  },
-  {
-    id: 3,
-    icon: "mdi:account-group",
-    title: "Поддержка 24/7",
-    description: "Наша команда всегда на связи для решения любых вопросов",
-  },
-  {
-    id: 4,
-    icon: "mdi:map-marker-radius",
-    title: "Лучшие локации",
-    description: "Только живописные места с развитой инфраструктурой",
-  },
-];
-const getCardClass = (index: number) => {
-  const baseClasses =
-    "p-8 rounded-2xl flex items-start space-x-6 transition-all duration-500 hover:scale-105";
-
-  const backgroundClasses = [
-    "bg-secondary text-secondary-content hover:bg-primary",
-    "bg-primary text-primary-content hover:bg-secondary text-secondary-content",
-    "bg-primary text-primary-content hover:bg-secondary",
-    "bg-secondary text-secondary-content hover:bg-primary text-primary-content",
-  ];
-
-  return `${baseClasses} ${backgroundClasses[index]}`;
-};
 
 // --- Реактивные переменные для домов ---
 const houses = ref<House[]>([]);
 
+// --- Хук жизненного цикла ---
 onMounted(async () => {
   console.log("Fetching houses...");
   try {
@@ -409,12 +268,9 @@ onMounted(async () => {
 
     let housesData: House[] = [];
 
-    // Проверяем, содержит ли ответ ключ 'data'
     if (responseData && Array.isArray(responseData.data)) {
       housesData = responseData.data;
-    }
-    // Или если ответ сам по себе является массивом
-    else if (Array.isArray(responseData)) {
+    } else if (Array.isArray(responseData)) {
       housesData = responseData;
     } else {
       console.error("Unexpected data structure:", responseData);
@@ -428,3 +284,5 @@ onMounted(async () => {
   }
 });
 </script>
+
+<style lang="scss" scoped></style>

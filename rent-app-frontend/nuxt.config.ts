@@ -10,7 +10,7 @@ export default defineNuxtConfig({
   },
 
   css: ["./app/tailwind.css"],
-  modules: ["nuxt-auth-sanctum", "@nuxt/icon", "@nuxt/image", "@nuxt/ui"],
+  modules: ["nuxt-auth-sanctum", "@nuxt/icon", "@nuxt/image", "@nuxt/ui", "nuxt-swiper"],
   image: {
     // Регистрируем наш новый кастомный провайдер
     providers: {
@@ -26,6 +26,10 @@ export default defineNuxtConfig({
     // Устанавливаем наш провайдер как провайдер по умолчанию
     provider: 'backend',
   },
+  swiper: {
+    // Глобально подключаем модули Swiper
+    modules: ['navigation', 'pagination', 'autoplay', 'effect-creative'],
+  }
   sanctum: {
     baseUrl: "http://localhost:8000",
     endpoints: {
