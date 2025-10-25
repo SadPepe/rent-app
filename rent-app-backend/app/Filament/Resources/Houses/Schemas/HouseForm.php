@@ -29,6 +29,7 @@ class HouseForm
                 ->multiple()
                 ->reorderable()
                 ->image()
+                ->disk('public')
                 ->directory('houses-photos')
                 ->columnSpan('full'),
             TagsInput::make('amenities')

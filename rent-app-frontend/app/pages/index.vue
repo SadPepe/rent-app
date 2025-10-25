@@ -86,9 +86,10 @@
 
           <!-- Кнопка -->
           <div class="card-actions justify-end mt-4">
-            <button class="btn btn-primary w-full">
+
+            <NuxtLink :to="`/house-show/${house.id}`" class="btn btn-primary w-full">
               Подробнее
-            </button>
+            </NuxtLink>
           </div>
         </div>
       </div>
@@ -269,14 +270,12 @@ const houses = ref<House[]>([]);
 
 // --- Хук жизненного цикла ---
 onMounted(async () => {
-  console.log("Fetching houses...");
   try {
     const response = await fetch("http://localhost:8000/api/houses");
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
     const responseData = await response.json();
-    console.log("Полученные данные с сервера:", responseData);
 
     let housesData: House[] = [];
 
@@ -288,15 +287,13 @@ onMounted(async () => {
       console.error("Unexpected data structure:", responseData);
     }
 
-    console.log("Данные для присвоения в houses.value:", housesData);
     houses.value = housesData;
-    console.log("Значение houses.value после присвоения:", houses.value);
   } catch (error) {
     console.error("Failed to fetch houses:", error);
   }
 });
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 
 </style>

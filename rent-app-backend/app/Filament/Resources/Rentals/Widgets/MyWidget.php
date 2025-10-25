@@ -63,11 +63,21 @@ class MyWidget extends StatsOverviewWidget
 
         // Occupancy calculation
         $housesCount = House::query()->where('is_active', true)->count();
+
+        $dbDriver = DB::connection()->getDriverName();
+        $dateDiffExpression = '';
+
+        if ($dbDriver === 'sqlite') {
+            $dateDiffExpression = "CAST(JULIANDAY(LEAST(end_date, '{$periodEnd->toDateString()}')) - JULIANDAY(GREATEST(start_date, '{$periodStart->toDateString()}')) + 1 AS INTEGER)";
+        } else { // Предполагаем, что по умолчанию используется PostgreSQL или другая БД с похожим синтаксисом
+            $dateDiffExpression = "CAST(DATE(LEAST(end_date, '{$periodEnd->toDateString()}')) - DATE(GREATEST(start_date, '{$periodStart->toDateString()}')) + 1 AS INTEGER)";
+        }
+
         $totalBookedDays = Rental::query()
             ->whereIn('status', ['completed', 'active'])
             ->where('start_date', '<=', $periodEnd)
             ->where('end_date', '>=', $periodStart)
-            ->sum(DB::raw("(LEAST(end_date, '{$periodEnd->toDateString()}')::date - GREATEST(start_date, '{$periodStart->toDateString()}')::date + 1)::integer"));
+            ->sum(DB::raw($dateDiffExpression));
 
         $totalAvailableDays = $housesCount * $daysInPeriod;
         $occupancy = $totalAvailableDays > 0 ? ($totalBookedDays / $totalAvailableDays) * 100 : 0;

@@ -11,4 +11,9 @@ class HouseController extends Controller
         $houses = House::all();
         return response()->json($houses);
     }
+
+    public function show($id){
+        $house = House::find($id);
+        return response()->json($house);
+    }
 }

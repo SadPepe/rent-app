@@ -16,6 +16,7 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:sanctum');
 
 Route::get('/houses', [HouseController::class, 'index']);
+Route::get('/house-show/{id}', [HouseController::class, 'show']);
 
 Route::post('/register' , [AuthController::class, 'register']);
 Route::post('/login' , [AuthController::class, 'login']);
