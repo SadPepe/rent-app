@@ -12,9 +12,9 @@
           id="popover-1"
           style="position-anchor: --anchor-1"
         >
-          <li class="bg-base-200 rounded-md m-4"><NuxtLink to="/" class="">Дома</NuxtLink></li>
-          <li class="bg-base-200 rounded-md m-4"><NuxtLink to="/" class="">О проекте</NuxtLink></li>
-          <li class="bg-base-200 rounded-md m-4"><NuxtLink to="/" class="">Контакты</NuxtLink></li>
+          <li class="bg-base-200 rounded-md m-4"><NuxtLink to="/" class="text-primary">Дома</NuxtLink></li>
+          <li class="bg-base-200 rounded-md m-4"><NuxtLink to="/" class="text-primary">О проекте</NuxtLink></li>
+          <li class="bg-base-200 rounded-md m-4"><NuxtLink to="/" class="text-primary">Контакты</NuxtLink></li>
    
           <template v-if="isAuthenticated">
             <li class="bg-base-200 rounded-md m-4"><NuxtLink to="/" class="">Профиль</NuxtLink></li>
@@ -29,14 +29,14 @@
         </ul>
       </div>
       <div class="flex-1 flex justify-start">
-        <a href="/" class="btn btn-ghost text-xl">daisyUI</a>
+        <a href="/" class="btn btn-primary text-xl text-primary-content">Rent-Wood</a>
       </div>
 
       <div class="hidden md:flex flex-1 justify-center">
         <ul class="menu menu-horizontal px-1">
-          <li><NuxtLink to="/" class="">Дома</NuxtLink></li>
-          <li><NuxtLink to="/" class="">О проекте</NuxtLink></li>
-          <li><NuxtLink to="/" class="">Контакты</NuxtLink></li>
+          <li><NuxtLink to="/" class="text-primary">Дома</NuxtLink></li>
+          <li><NuxtLink to="/" class="text-primary">О проекте</NuxtLink></li>
+          <li><NuxtLink to="/" class="text-primary">Контакты</NuxtLink></li>
         </ul>
       </div>
       <div class="flex flex-1 justify-end">
@@ -44,7 +44,7 @@
         <template v-if="!isAuthenticated">
              <button
             onclick="my_modal_2.showModal()"
-            class="btn hover:scale-105 transition duration-200"
+            class="btn btn-primary hover:scale-105 transition duration-200"
           >
             Вход
           </button>

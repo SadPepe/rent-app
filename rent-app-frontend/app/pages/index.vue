@@ -13,10 +13,10 @@
         <button class="btn btn-primary">Выбрать место</button>
       </div>
     </div>
-  </div>
+ </div>
   <!--СЕКЦИЯ С ДОМАМИ-->
-  <div class="container mx-auto p-4">
-    <h1 class="text-4xl font-bold mb-8 text-center">
+  <div class="max-w-7xl mx-auto p-4 bg-base-100">
+    <h1 class="text-4xl font-bold mb-8 text-center text-primary">
       Найдите дом своей мечты
     </h1>
 
@@ -24,11 +24,11 @@
     <!-- ... -->
 
     <!-- Обновленная сетка и карточки -->
-    <div v-if="houses && houses.length" class="grid grid-cols-1 gap-8 md:grid-cols-2">
+    <div v-if="houses && houses.length" class="grid grid-cols-1 gap-8 md:grid-cols-2 bg-base-100">
       <div
         v-for="house in houses"
         :key="house.id"
-        class="card bg-base-100 shadow-lg hover:shadow-2xl transition-shadow duration-300 ease-in-out rounded-lg overflow-hidden"
+        class="card bg-base-200 text-base-content shadow-lg hover:shadow-2xl transition-shadow duration-300 ease-in-out rounded-lg overflow-hidden"
       >
         <figure class="relative h-56">
           <!-- Фотография -->
@@ -82,7 +82,7 @@
           </div>
           
           <!-- Краткое описание -->
-          <p class="text-sm opacity-80 flex-grow min-h-[40px]">{{ house.description.substring(0, 70) }}{{ house.description.length > 70 ? '...' : '' }}</p>
+          <p class="text-sm opacity-80 grow min-h-10">{{ house.description.substring(0, 70) }}{{ house.description.length > 70 ? '...' : '' }}</p>
 
           <!-- Кнопка -->
           <div class="card-actions justify-end mt-4">
