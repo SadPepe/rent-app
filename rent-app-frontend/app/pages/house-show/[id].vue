@@ -46,8 +46,9 @@
           <template #content>
             <UCalendar
               v-model="modelValue"
-              class="p-2 bg-base-200 text-base-content active:text-primary-content"
-              :number-of-months="3"
+              class="p-2"
+              :number-of-months="1"
+              :is-date-unavailable="isDateUnavailable"
               range
             />
           </template>
@@ -63,19 +64,39 @@
 <script lang="ts" setup>
 import { ref, onMounted, computed } from "vue";
 import { useRoute } from "vue-router";
-import { CalendarDate, DateFormatter, getLocalTimeZone } from '@internationalized/date'
+import emblaCarouselVue from "embla-carousel-vue";
+import Autoplay from "embla-carousel-autoplay";
+import { CalendarDate, DateFormatter, parseDate, getLocalTimeZone } from '@internationalized/date'
+import type { DateValue } from '@internationalized/date'
 
-const df = new DateFormatter('en-US', {
-  dateStyle: 'medium'
+const df = new DateFormatter('ru-RU', {
+  dateStyle: 'long'
 })
 
 const modelValue = shallowRef({
-  start: new CalendarDate(2022, 1, 20),
-  end: new CalendarDate(2022, 2, 10)
+  start: new CalendarDate(2025, 10, 1),
+  end: new CalendarDate(2025, 10, 9)
 })
+
+const bookedDates = shallowRef<CalendarDate[]>([]);
+// Флаг, который покажет, что даты были загружены
+const datesLoaded = ref(false);
+
+const isDateUnavailable = (date: DateValue) => {
+  // Если даты еще не загружены, ничего не блокируем
+  if (!datesLoaded.value) {
+    return false;
+  }
+  const isBooked = bookedDates.value.some(bookedDate => date.compare(bookedDate) === 0);
+  // Логируем только если нашли заблокированную дату, чтобы не засорять консоль
+
+  return isBooked;
+}
+
 const route = useRoute();
 const houseid = route.params.id;
 const house = ref<House | null>(null);
+
 
 interface House {
   id: number;
@@ -95,17 +116,39 @@ interface House {
 
 onMounted(async () => {
   try {
+    // Загружаем информацию о доме
     const responseData = await fetch(
       `http://localhost:8000/api/house-show/${houseid}`
     ).then((res) => res.json());
     house.value = responseData;
+
+    // Загружаем забронированные даты
+    const bookedDatesData = await fetch(
+      `http://localhost:8000/api/house-show/${houseid}/booked-dates`
+    ).then((res) => res.json());
+
+    const dates: CalendarDate[] = [];
+    if (Array.isArray(bookedDatesData)) {
+      for (const range of bookedDatesData) {
+        // Убедимся, что в range есть нужные свойства
+        if (range && range.start_date && range.end_date) {
+          let currentDate = parseDate(range.start_date.split(' ')[0]);
+          const endDate = parseDate(range.end_date.split(' ')[0]);
+
+          while (currentDate.compare(endDate) <= 0) {
+            dates.push(currentDate);
+            currentDate = currentDate.add({ days: 1 });
+          }
+        }
+      }
+    }
+    
+    bookedDates.value = dates;
   } catch (error) {
-    console.error("Failed to fetch house:", error);
+    console.error("Ошибка при загрузке данных:", error);
   }
 });
 
-import emblaCarouselVue from "embla-carousel-vue";
-import Autoplay from "embla-carousel-autoplay";
 
 const [emblaRef, emblaApi] = emblaCarouselVue({ loop: true }, [Autoplay()]);
 

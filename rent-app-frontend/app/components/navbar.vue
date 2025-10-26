@@ -1,102 +1,100 @@
 <template>
-  <div class="bg-base-100 shadow-sm">
-    <div class="navbar max-w-7xl mx-auto">
-      <div class="md:hidden">
-        <button popovertarget="popover-1" style="anchor-name: --anchor-1">
-          <Icon name="meteor-icons:bars" size="24" />
-        </button>
-
-        <ul
-          class="dropdown dropdown-start menu menu-lg w-52 rounded-box bg-base-100 shadow-md"
-          popover
-          id="popover-1"
-          style="position-anchor: --anchor-1"
-        >
-          <li class="bg-base-200 rounded-md m-4"><NuxtLink to="/" class="text-primary">Дома</NuxtLink></li>
-          <li class="bg-base-200 rounded-md m-4"><NuxtLink to="/" class="text-primary">О проекте</NuxtLink></li>
-          <li class="bg-base-200 rounded-md m-4"><NuxtLink to="/" class="text-primary">Контакты</NuxtLink></li>
-   
-          <template v-if="isAuthenticated">
-            <li class="bg-base-200 rounded-md m-4"><NuxtLink to="/" class="">Профиль</NuxtLink></li>
-            <li class="bg-base-200 rounded-md m-4"><button @click="handleLogout" class="">Выйти</button></li>
+ <div class="navbar bg-base-200 text-base-content">
+    <!-- Начало Navbar -->
+    <div class="navbar-start">
+      <!-- Мобильный сайдбар -->
+      <div class="block md:hidden">
+        
+        <UDashboardSidebar v-model:open="isSidebarOpen" mode="drawer">
+          <template #header>
+            <NuxtLink to="/" @click="isSidebarOpen = false">
+              <!-- Здесь ваш логотип -->
+              <span class="text-xl font-bold">YourLogo</span>
+            </NuxtLink>
           </template>
 
-          <template v-else>
-            <li class="bg-base-200 rounded-md m-4"><NuxtLink to="/login" class="">Войти</NuxtLink></li>
-            <li class="bg-base-200 rounded-md m-4"><NuxtLink to="/register" class="">Регистрация</NuxtLink></li>
-          </template>
-       
-        </ul>
-      </div>
-      <div class="flex-1 flex justify-start">
-        <a href="/" class="btn btn-primary text-xl text-primary-content">Rent-Wood</a>
-      </div>
+          <!-- Навигация -->
+          <UNavigationMenu :items="items" orientation="vertical" />
 
-      <div class="hidden md:flex flex-1 justify-center">
-        <ul class="menu menu-horizontal px-1">
-          <li><NuxtLink to="/" class="text-primary">Дома</NuxtLink></li>
-          <li><NuxtLink to="/" class="text-primary">О проекте</NuxtLink></li>
-          <li><NuxtLink to="/" class="text-primary">Контакты</NuxtLink></li>
-        </ul>
-      </div>
-      <div class="flex flex-1 justify-end">
-        <ClientOnly>
-        <template v-if="!isAuthenticated">
-             <button
-            onclick="my_modal_2.showModal()"
-            class="btn btn-primary hover:scale-105 transition duration-200"
-          >
-            Вход
-          </button>
-          <dialog id="my_modal_2" class="modal">
-            <div class="modal-box bg-base-100 relative">
-              <!-- Форма только для кнопки закрытия -->
-              <form method="dialog">
-                <button
-                  class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
-                >
-                  ✕
-                </button>
-              </form>
+          <UDivider class="my-4" />
 
-              <!-- Контент модального окна НЕ внутри формы -->
-              <div class="flex justify-center mb-4 items-center gap-2">
-                <span
-                  :class="
-                    !isRegisterForm ? 'text-primary font-bold' : 'text-accent'
-                  "
-                  >Вход</span
-                >
-                <input
-                  type="checkbox"
-                  class="toggle"
-                  v-model="isRegisterForm"
-                />
-                <span
-                  :class="
-                    isRegisterForm ? 'text-primary font-bold' : 'text-accent'
-                  "
-                  >Регистрация</span
-                >
-              </div>
-              <Signin class="min-h-[422px]" v-if="!isRegisterForm"></Signin>
-              <Register v-if="isRegisterForm"></Register>
+          <!-- Блок входа/регистрации -->
+          <div v-if="!isAuthenticated" class="p-4">
+            <div class="flex justify-center mb-4 items-center gap-2">
+              <span
+                :class="
+                  !isRegisterForm ? 'text-primary font-bold' : 'text-accent'
+                "
+                >Вход</span
+              >
+              <input
+                type="checkbox"
+                class="toggle"
+                v-model="isRegisterForm"
+              />
+              <span
+                :class="isRegisterForm ? 'text-primary font-bold' : 'text-accent'"
+                >Регистрация</span
+              >
             </div>
-            <form method="dialog" class="modal-backdrop">
-              <button>close</button>
-            </form>
-          </dialog>
-        </template>
-        </ClientOnly>
-        <div class="hidden md:flex">
-          <ul class="menu menu-horizontal px-1">
-            <template v-if="isAuthenticated">
-              <li><NuxtLink to="/profile" class="">Профиль</NuxtLink></li>
-              <li><button @click="handleLogout" class="">Выйти</button></li>
-            </template>
-          </ul>
-        </div>
+            <Signin v-if="!isRegisterForm" @success="isSidebarOpen = false" />
+            <Register v-if="isRegisterForm" @success="isSidebarOpen = false" />
+          </div>
+
+          <!-- Профиль пользователя -->
+          <div v-if="isAuthenticated" class="p-4">
+        
+            <UButton to="/profile" block class="mt-2" @click="isSidebarOpen = false">Профиль</UButton>
+            <!-- Здесь можно добавить кнопку выхода -->
+          </div>
+        </UDashboardSidebar>
       </div>
+
+      <!-- Логотип для десктопа -->
+      <NuxtLink to="/" class="btn btn-ghost text-3xl"
+        >Rent-Wood</NuxtLink
+      >
+    </div>
+
+    <!-- Центр Navbar (меню для десктопа) -->
+    <div class="navbar-center hidden md:flex">
+      <ul class="menu menu-horizontal px-1 text-xl">
+        <li><NuxtLink to="/">Главная</NuxtLink></li>
+        <li><NuxtLink to="/rent">Аренда</NuxtLink></li>
+      </ul>
+    </div>
+
+    <!-- Конец Navbar -->
+    <div class="navbar-end">
+      
+       <ClientOnly>
+        <!-- Кнопка входа для десктопа (если нужна) -->
+        <template v-if="!isAuthenticated">
+           <!-- Можно оставить кнопку, открывающую модальное окно для десктопа, или сделать отдельную страницу входа -->
+           <a class="btn btn-primary">Вход</a>
+        </template>
+        <!-- Аватар пользователя для десктопа -->
+        <template v-if="isAuthenticated">
+          <div class="dropdown dropdown-end">
+            <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar">
+              <div class="w-10 rounded-full">
+                <img alt="User Avatar" src="#" />
+
+              </div>
+            </div>
+            <ul tabindex="0" class="mt-3 z-1 p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52">
+              <li><NuxtLink to="/profile">Профиль</NuxtLink></li>
+              <li><a>Выход</a></li>
+            </ul>
+          </div>
+        </template>
+      </ClientOnly>
+      <UButton
+          icon="i-heroicons-bars-3"
+          class="btn btn-primary  text-primary-content aspect-square mx-2 flex md:hidden"
+          variant="ghost"
+          @click="isSidebarOpen = true"
+        />
     </div>
   </div>
 </template>
@@ -105,9 +103,18 @@
 import { ref, computed } from "vue";
 import { useRouter } from "vue-router";
 
+const isSidebarOpen = ref(false);
+const isRegisterForm = ref(false);
+
+// Элементы для навигационного меню
+const items = ref([
+  [{ label: "Главная", to: "/" }],
+  [{ label: "Аренда", to: "/rent" }],
+]);
+
 const activeForm = ref<"login" | "register">("login"); // состояние для формы
 
-const isRegisterForm = ref(false);
+
 
 /**
  * Navbar component for загородные дома rental site.

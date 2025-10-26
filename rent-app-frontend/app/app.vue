@@ -6,7 +6,7 @@ useHead({
 })
 </script>
 <template>
-<Html data-theme="silk">
+<Html data-theme="coffee">
   <navbar />
   <NuxtLayout>
     <NuxtPage />

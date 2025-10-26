@@ -17,6 +17,7 @@ Route::get('/user', function (Request $request) {
 
 Route::get('/houses', [HouseController::class, 'index']);
 Route::get('/house-show/{id}', [HouseController::class, 'show']);
+Route::get('/house-show/{id}/booked-dates', [HouseController::class, 'getBookedDates']);
 
 Route::post('/register' , [AuthController::class, 'register']);
 Route::post('/login' , [AuthController::class, 'login']);

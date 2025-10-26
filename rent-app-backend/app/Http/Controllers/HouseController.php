@@ -16,4 +16,10 @@ class HouseController extends Controller
         $house = House::find($id);
         return response()->json($house);
     }
+
+    public function getBookedDates($id){
+        $house = House::findOrFail($id);
+        $bookedDates = $house->rentals()->select('start_date', 'end_date')->get();
+        return response()->json($bookedDates);
+    }
 }
