@@ -13,6 +13,7 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->statefulApi();
+        $middleware->validateCsrfTokens(except: ['api/house-show/*/book-check']);  // Исключение для вашего POST-роута
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //

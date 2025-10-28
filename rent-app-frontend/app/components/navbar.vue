@@ -84,7 +84,7 @@
             </div>
             <ul tabindex="0" class="mt-3 z-1 p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52">
               <li><NuxtLink to="/profile">Профиль</NuxtLink></li>
-              <li><a>Выход</a></li>
+              <li><a @click="handleLogout">Выход</a></li>
             </ul>
           </div>
         </template>
@@ -138,7 +138,7 @@ const isAuthenticated = computed(() => !!auth.user.value);
 const handleLogout = async () => {
   try {
     await auth.logout();
-    router.push("/login");
+    router.push("/");
   } catch (error) {
     // TODO: добавить обработку ошибок (например, уведомление)
     console.error("Ошибка выхода:", error);

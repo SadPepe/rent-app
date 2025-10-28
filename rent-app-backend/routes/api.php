@@ -18,6 +18,11 @@ Route::get('/user', function (Request $request) {
 Route::get('/houses', [HouseController::class, 'index']);
 Route::get('/house-show/{id}', [HouseController::class, 'show']);
 Route::get('/house-show/{id}/booked-dates', [HouseController::class, 'getBookedDates']);
+Route::post('/house-show/{id}/book-check', [HouseController::class, 'checkAvailability']);
+
+Route::middleware('auth:sanctum')->group(function () {
+    Route::post('/house-show/{id}/book-create', [HouseController::class, 'createBooking']);
+});
 
 Route::post('/register' , [AuthController::class, 'register']);
 Route::post('/login' , [AuthController::class, 'login']);
