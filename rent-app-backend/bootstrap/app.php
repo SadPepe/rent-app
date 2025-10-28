@@ -12,7 +12,8 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        $middleware->statefulaPI();
+        $middleware->statefulApi();
+        $middleware->validateCsrfTokens(except: ['api/house-show/*/book-check']);  // Исключение для вашего POST-роута
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //

@@ -1,27 +1,12 @@
 <template>
- <div class="navbar bg-base-100 shadow-sm">
-  <div class="flex-1">
-    <a class="btn btn-ghost text-xl">daisyUI</a>
-  </div>
-  <div class="flex-none">
-    <ul class="menu menu-horizontal px-1">
-      <li><NuxtLink to="/login">Login</NuxtLink></li>
-      <li><NuxtLink to="/register">Register</NuxtLink></li>
-      <li>
-        <details>
-          <summary>Parent</summary>
-          <ul class="bg-base-100 rounded-t-none p-2">
-            <li><a>Link 1</a></li>
-            <li><a>Link 2</a></li>
-          </ul>
-        </details>
-      </li>
-    </ul>
-  </div>
-</div>
-    <div class="container mx-auto p-8">
+
         <slot />
-    </div>
+
 </template>
 
-<script setup></script>
+<script setup>
+const { logout } = useSanctumAuth()
+const handleLogout = async () => {
+  await logout()
+}
+</script>
