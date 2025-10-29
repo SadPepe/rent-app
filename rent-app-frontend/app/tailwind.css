@@ -1,5 +1,107 @@
 @import "tailwindcss";
 @import "@nuxt/ui";
-@plugin "daisyui" {
-    themes: all;
+@plugin "daisyui";
+
+@plugin "daisyui/theme" {
+  name: "woodland";
+  default: true;
+  prefersdark: true;
+  color-scheme: dark;
+
+  /* === ФОН И ТЕКСТ === */
+  --color-base-100: #1a1f1a;     /* Тёмный лесной фон */
+  --color-base-200: #2d3a2d;     /* Карточки */
+  --color-base-300: #3a4a3a;     /* Панели */
+  --color-base-content: #e8e5d8; /* **Кремовый текст** */
+
+  /* === ОСНОВНЫЕ ЦВЕТА === */
+  --color-primary: #5d6b48;         /* **Оливковый зелёный** */
+  --color-primary-content: #e8e5d8; /* Кремовый текст */
+
+  --color-secondary: #8b9a6b;       /* Мягкий оливково-зелёный */
+  --color-secondary-content: #1a1f1a;
+
+  --color-accent: #d4c9a8;          /* **Тёплый бежевый / кремовый** */
+  --color-accent-content: #1a1f1a;
+
+  /* === СЛУЖЕБНЫЕ === */
+  --color-neutral: #4a5a4a;
+  --color-neutral-content: #e8e5d8;
+
+  --color-info: #6b9ab8;
+  --color-info-content: #ffffff;
+
+  --color-success: #6b9a6b;
+  --color-success-content: #ffffff;
+
+  --color-warning: #d4a657;
+  --color-warning-content: #1a1f1a;
+
+  --color-error: #a15a5a;
+  --color-error-content: #ffffff;
+
+  /* === СТИЛИСТИКА === */
+  --radius-selector: 0.75rem;
+  --radius-field: 0.5rem;
+  --radius-box: 1rem;
+
+  --size-selector: 0.375rem;
+  --size-field: 0.375rem;
+
+  --border: 1px;
+
+  --depth: 2;
+  --noise: 0;
+}
+
+@plugin "daisyui/theme" {
+  name: "woodland-light";
+  default: false;
+  prefersdark: false;
+  color-scheme: light;
+
+  /* === ФОН И ТЕКСТ === */
+  --color-base-100: #f5f7f0;     /* Очень светлый кремово-зелёный */
+  --color-base-200: #e8eddf;     /* Мягкий бежевый фон */
+  --color-base-300: #d4d9c9;     /* Карточки */
+  --color-base-content: #2d4a2f; /* Тёмно-оливковый текст */
+
+  /* === ОСНОВНЫЕ ЦВЕТА === */
+  --color-primary: #5d6b48;         /* **Оливковый зелёный** */
+  --color-primary-content: #ffffff; /* Белый текст */
+
+  --color-secondary: #8b9a6b;       /* Мягкий оливково-зелёный */
+  --color-secondary-content: #1a1f1a;
+
+  --color-accent: #d4c9a8;          /* **Тёплый бежевый / кремовый** */
+  --color-accent-content: #1a1f1a;
+
+  /* === СЛУЖЕБНЫЕ === */
+  --color-neutral: #a8b89a;
+  --color-neutral-content: #2d4a2f;
+
+  --color-info: #6b9ab8;
+  --color-info-content: #ffffff;
+
+  --color-success: #6b9a6b;
+  --color-success-content: #ffffff;
+
+  --color-warning: #d4a657;
+  --color-warning-content: #1a1f1a;
+
+  --color-error: #a15a5a;
+  --color-error-content: #ffffff;
+
+  /* === СТИЛИСТИКА === */
+  --radius-selector: 0.75rem;
+  --radius-field: 0.5rem;
+  --radius-box: 1rem;
+
+  --size-selector: 0.375rem;
+  --size-field: 0.375rem;
+
+  --border: 1px;
+
+  --depth: 1;
+  --noise: 0;
 }

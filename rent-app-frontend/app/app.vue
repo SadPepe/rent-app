@@ -6,10 +6,9 @@ useHead({
 })
 </script>
 <template>
-<Html data-theme="coffee">
-  <navbar />
-  <NuxtLayout>
-    <NuxtPage />
-  </NuxtLayout>
-  </Html>
+
+      <navbar />
+      <NuxtLayout>
+        <NuxtPage />
+      </NuxtLayout>
 </template>
