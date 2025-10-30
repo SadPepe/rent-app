@@ -10,8 +10,12 @@ export default defineNuxtConfig({
   },
 
   css: ["./app/tailwind.css"],
-  modules: ["nuxt-auth-sanctum", "@nuxt/icon", "@nuxt/image", "@nuxt/ui"],
-
+  modules: ["nuxt-auth-sanctum", "@nuxt/icon", "@nuxt/image", "@nuxt/ui", '@nuxt/fonts'],
+ fonts: {
+    families: [
+      { name: 'Inter', provider: 'google' },
+    ]
+  },
   image: {
     // Регистрируем наш новый кастомный провайдер
     providers: {

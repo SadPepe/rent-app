@@ -1,30 +1,36 @@
 @import "tailwindcss";
 @import "@nuxt/ui";
-@plugin "daisyui";
+@plugin "daisyui" {
 
-@plugin "daisyui/theme" {
+    themes: light --default, dark --prefersdark, cupcake;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+}
+
+/*@plugin "daisyui/theme" {
   name: "woodland";
   default: true;
   prefersdark: true;
   color-scheme: dark;
 
-  /* === ФОН И ТЕКСТ === */
-  --color-base-100: #1a1f1a;     /* Тёмный лесной фон */
-  --color-base-200: #2d3a2d;     /* Карточки */
-  --color-base-300: #3a4a3a;     /* Панели */
-  --color-base-content: #e8e5d8; /* **Кремовый текст** */
 
-  /* === ОСНОВНЫЕ ЦВЕТА === */
-  --color-primary: #5d6b48;         /* **Оливковый зелёный** */
-  --color-primary-content: #e8e5d8; /* Кремовый текст */
+  --color-base-100: #1a1f1a;     
+  --color-base-200: #2d3a2d;     
+  --color-base-300: #3a4a3a;     
+  --color-base-content: #e8e5d8; 
 
-  --color-secondary: #8b9a6b;       /* Мягкий оливково-зелёный */
+ 
+  --color-primary: #5d6b48;         
+  --color-primary-content: #e8e5d8; 
+  --color-secondary: #8b9a6b;       
   --color-secondary-content: #1a1f1a;
 
-  --color-accent: #d4c9a8;          /* **Тёплый бежевый / кремовый** */
+  --color-accent: #d4c9a8;          
   --color-accent-content: #1a1f1a;
 
-  /* === СЛУЖЕБНЫЕ === */
+
   --color-neutral: #4a5a4a;
   --color-neutral-content: #e8e5d8;
 
@@ -40,7 +46,7 @@
   --color-error: #a15a5a;
   --color-error-content: #ffffff;
 
-  /* === СТИЛИСТИКА === */
+
   --radius-selector: 0.75rem;
   --radius-field: 0.5rem;
   --radius-box: 1rem;
@@ -60,23 +66,23 @@
   prefersdark: false;
   color-scheme: light;
 
-  /* === ФОН И ТЕКСТ === */
-  --color-base-100: #f5f7f0;     /* Очень светлый кремово-зелёный */
-  --color-base-200: #e8eddf;     /* Мягкий бежевый фон */
-  --color-base-300: #d4d9c9;     /* Карточки */
-  --color-base-content: #2d4a2f; /* Тёмно-оливковый текст */
 
-  /* === ОСНОВНЫЕ ЦВЕТА === */
-  --color-primary: #5d6b48;         /* **Оливковый зелёный** */
-  --color-primary-content: #ffffff; /* Белый текст */
+  --color-base-100: #FDFCFA;     
+  --color-base-200: #f8f8f8;     
+  --color-base-300: #d4d9c9;    
+  --color-base-content: #2d4a2f; 
 
-  --color-secondary: #8b9a6b;       /* Мягкий оливково-зелёный */
+ 
+  --color-primary: #101010;         
+  --color-primary-content: #ffffff; 
+
+  --color-secondary: #8b9a6b;      
   --color-secondary-content: #1a1f1a;
 
-  --color-accent: #d4c9a8;          /* **Тёплый бежевый / кремовый** */
+  --color-accent: #d4c9a8;         
   --color-accent-content: #1a1f1a;
 
-  /* === СЛУЖЕБНЫЕ === */
+ 
   --color-neutral: #a8b89a;
   --color-neutral-content: #2d4a2f;
 
@@ -92,7 +98,7 @@
   --color-error: #a15a5a;
   --color-error-content: #ffffff;
 
-  /* === СТИЛИСТИКА === */
+ 
   --radius-selector: 0.75rem;
   --radius-field: 0.5rem;
   --radius-box: 1rem;
