@@ -1,20 +1,21 @@
 <template>
+<div class="min-h-screen">
   <div class="flex flex-col items-center justify-center mt-20">
-    <h1 class="text-3xl text-center">You must verify your email</h1>
+    <h1 class="text-3xl text-center text-primary">Вам на почту было отправленно письмо для подтверждения e-maill</h1>
 
-    <a href="https://gmail.com/" class="btn btn-primary mt-5">Open Gmail</a>
-    <p class="mt-5">
-      didnt recive the email?
+    <p class="mt-5 text-base-content">
+      Не получили письмо?
       <span
         @click="handleResend"
         class="underline hover:text-blue-900 cursor-pointer"
-        >resend</span
+        > отправить еще раз</span
       >
     </p>
     <p v-if="success" class="mt-2 text-sm text-green-300">
       Your Verification Email is Sent
     </p>
   </div>
+</div>
 </template>
 
 <script setup>
@@ -33,7 +34,7 @@ useHead({
 const success = ref(false);
 
 const handleResend = async () => {
-  await client(`${config.public.baseUrl}/api/email/resend`, {
+  await client(`/api/email/resend`, {
     method: "POST",
   });
 

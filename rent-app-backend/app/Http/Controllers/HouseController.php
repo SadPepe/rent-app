@@ -7,6 +7,8 @@ use App\Models\House;
 use Illuminate\Support\Facades\Validator;
 use Carbon\Carbon;
 use App\Models\Rental;
+use Illuminate\Support\Facades\Log;
+use Telegram\Bot\Laravel\Facades\Telegram;
 
 class HouseController extends Controller
 {
@@ -79,16 +81,44 @@ class HouseController extends Controller
     }
 
     // Рассчитываем общее количество дней
-    $days = $start->diffInDays($end) + 1; // Включая первый и последний день
+    $days = $start->diffInDays($end)-1; // Включая первый и последний день
 
     // Рассчитываем цену
-    $totalPrice = $days * $house->price_per_day;
+    $totalPrice = ceil($days * $house->price_per_day);
+    
 
     return response()->json([
         'available' => true,
         'total_price' => $totalPrice,
         'message' => 'Доступно для бронирования',
     ]);
+}
+
+protected function formatTelegramMessage(Rental $rental): string
+{
+    $house = $rental->house;
+    $user = $rental->user;
+
+
+    $start = $rental->start_date ? Carbon::parse($rental->start_date)->format('d.m.Y') : '—';
+    $end = $rental->end_date ? Carbon::parse($rental->end_date)->format('d.m.Y') : '—';
+
+    return "
+<b>Новое бронирование!</b>
+
+<b>Дом:</b> {$house->name}
+<b>Адрес:</b> {$house->address}
+<b>Клиент:</b> {$user->name}
+
+<b>Заезд:</b> {$start}
+<b>Выезд:</b> {$end}
+<b>Гостей:</b> {$rental->number_of_guests}
+<b>Сумма:</b> {$rental->total_price} ₽
+
+<b>Статус:</b> <i>Ожидает подтверждения</i>
+
+<a href='#'>Открыть в админке</a>
+    ";
 }
 
 public function createBooking(Request $request, $id)
@@ -126,29 +156,40 @@ public function createBooking(Request $request, $id)
         return response()->json(['available' => false, 'message' => 'Даты уже забронированы'], 400);
     }
 
-    $days = $start->diffInDays($end) + 1;
+    $days = $start->diffInDays($end) - 1;
     $totalPrice = $days * $house->price_per_day;
 
     // Создаём бронирование для текущего пользователя
     $rental = Rental::create([
         'house_id' => $id,
-        'user_id' => auth()->id(),  // Из Sanctum (текущий пользователь)
+        'user_id' => auth('sanctum')->id(),  // Из Sanctum (текущий пользователь)
         'start_date' => $start,
         'end_date' => $end,
         'number_of_guests' => $request->guests,
         'total_price' => $totalPrice,
-        'status' => 'pending',  // Ожидает подтверждения (без оплаты)
+        'status' => Rental::STATUS_PENDING, // Ожидает подтверждения (без оплаты)
     ]);
+
+    try {
+        Telegram::sendMessage([
+            'chat_id' => '496280021',
+            'text' => $this->formatTelegramMessage($rental),
+            'parse_mode' => 'HTML'
+        ]);
+    } catch (\Exception $e) {
+        Log::error('Telegram notification failed: ' . $e->getMessage());
+    }
+
+    return response()->json([
+        'rental_id' => $rental->id,
+        'message' => 'Бронирование создано! Ожидает подтверждения.'
+    ]);
+}
+
 
     // Опционально: Отправьте email пользователю/админу (используйте Mail::to() или Queue)
     // Mail::to(auth()->user()->email)->send(new BookingConfirmation($rental));
 
-    return response()->json([
-        'available' => true,
-        'message' => 'Бронирование создано! Ожидайте подтверждения.',
-        'rental_id' => $rental->id,
-        'total_price' => $totalPrice,
-    ]);
+   
 }
 
-}

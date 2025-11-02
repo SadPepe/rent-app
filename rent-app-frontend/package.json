@@ -17,6 +17,7 @@
     "@nuxt/image": "^1.11.0",
     "@nuxt/ui": "^4.1.0",
     "@tailwindcss/vite": "^4.1.15",
+    "@vuepic/vue-datepicker": "^11.0.3",
     "date-fns": "^4.1.0",
     "embla-carousel-vue": "^8.6.0",
     "nuxt": "^4.1.3",

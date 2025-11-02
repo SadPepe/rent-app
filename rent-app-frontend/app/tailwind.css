@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @import "@nuxt/ui";
+@import '@vuepic/vue-datepicker/dist/main.css';
 @plugin "daisyui" {
 
     themes: light --default, dark --prefersdark, cupcake;
@@ -8,7 +9,13 @@
 body {
   font-family: 'Inter', sans-serif;
 }
-
+.dp__booked {
+  @apply bg-red-100 text-red-600 line-through opacity-70 relative;
+}
+.dp__booked::after {
+  content: '✕';
+  @apply absolute inset-0 flex items-center justify-center text-xs font-bold pointer-events-none;
+}
 /*@plugin "daisyui/theme" {
   name: "woodland";
   default: true;
@@ -111,3 +118,4 @@ body {
   --depth: 1;
   --noise: 0;
 }
+  

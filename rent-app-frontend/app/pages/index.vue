@@ -7,17 +7,17 @@
 
       <!-- Текст -->
       <div class="order-2 md:order-1 space-y-6">
-        <h1 class="text-5xl font-bold text-primary leading-tight">
+        <h1 class="text-2xl md:text-5xl font-bold text-primary leading-tight">
           Аренда уюта<br>в Подмосковье
         </h1>
-        <p class="text-xl text-base-content/80">
+        <p class="text-md md:text-xl text-base-content/80">
           Всего <span class="text-primary font-semibold">2 эксклюзивных дома</span> — каждый с душой
         </p>
         <div class="flex flex-col sm:flex-row gap-4">
-          <NuxtLink to="#houses" class="btn btn-primary btn-lg shadow-xl">
+          <NuxtLink to="#houses" class="btn btn-primary btn-md md:btn-lg shadow-xl">
             Посмотреть дома
           </NuxtLink>
-          <NuxtLink to="#contact" class="btn btn-ghost text-base-content btn-lg">
+          <NuxtLink to="#contact" class="btn btn-ghost text-base-content btn-md md:btn-lg">
             Связаться
           </NuxtLink>
         </div>
@@ -27,9 +27,9 @@
       <div class="order-1 md:order-2">
         <div class="relative group">
           <NuxtImg
-            src="/img/hero.jpg"
+            src="/img/hero.webp"
             alt="Эксклюзивный дом"
-            class="w-full h-96 md:h-full object-cover rounded-2xl shadow-2xl group-hover:shadow-3xl transition-shadow"
+            class="w-full h-96 md:h-96 object-cover rounded-2xl shadow-2xl group-hover:shadow-3xl transition-shadow"
             loading="lazy"
           />
           <div class="absolute bottom-6 glass rounded-2xl p-4 left-6 text-white">
@@ -47,8 +47,8 @@
  <section id="houses" class="py-20 bg-base-200">
   <div class="container mx-auto px-4">
     <div class="text-center mb-12">
-      <h2 class="text-4xl font-bold text-primary">Наши эксклюзивные дома</h2>
-      <p class="text-lg text-base-content/70 mt-4">Всего 2 шедевра — выбирайте свой</p>
+      <h2 class="text-2xl md:text-4xl font-bold text-primary">Наши эксклюзивные дома</h2>
+      <p class="text-md md:text-lg text-base-content/70 mt-4">Всего 2 шедевра — выбирайте свой</p>
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-10 max-w-5xl mx-auto">
@@ -91,19 +91,15 @@
 
 <script setup lang="ts">
 const houses = ref([])
-
+const config = useRuntimeConfig()
 onMounted(async () => {
   try {
-    houses.value = await $fetch('http://localhost:8000/api/houses')
+    houses.value = await $fetch(`${config.public.apiBase}/api/houses`)
   } catch (e) {
     console.error(e)
   }
 })
 
-function onSearch(data: any) {
-  console.log('Поиск:', data)
-  // navigateTo(`/rent?location=${data.location}&...`)
-}
 </script>
 
 <style scoped>

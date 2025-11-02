@@ -34,8 +34,10 @@ export default defineNuxtConfig({
   sanctum: {
     baseUrl: "http://localhost:8000",
     endpoints: {
-      login: "/api/login",
-      logout: "/api/logout",
+      csrf: '/sanctum/csrf-cookie',
+      login: '/api/login',
+      logout: '/api/logout',
+      user: '/api/user'
     },
     redirect: {
       onLogin: "/",
@@ -44,7 +46,7 @@ export default defineNuxtConfig({
   },
   runtimeConfig: {
     public: {
-      apiBaseUrl:'http://localhost:8000'
+      apiBase:'http://localhost:8000'
   }
 },
 })

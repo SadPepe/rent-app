@@ -171,33 +171,22 @@
             <template v-if="!isAuthenticated">
               <label
                 for="mobile-drawer"
-                class="btn btn-ghost w-full"
+                class="btn btn-primary w-full text-primary-content"
                 @click="openAuthModal('login')"
                 >Войти</label
               >
-              <label
-                for="mobile-drawer"
-                class="btn btn-primary w-full"
-                @click="openAuthModal('register')"
-                >Регистрация</label
-              >
             </template>
             <template v-else>
-              <NuxtLink
-                to="/profile"
-                @click="mobileMenuOpen = false"
-                class="btn btn-ghost w-full justify-start"
-                >Профиль</NuxtLink
-              >
-              <button
-                @click="
-                  handleLogout();
-                  mobileMenuOpen = false;
-                "
-                class="btn btn-ghost w-full justify-start"
-              >
-                Выйти
-              </button>
+              <div class="flex flex-col">
+              <a class="text-base-content btn btn-info text-info-content"><Icon name="i-heroicons-user"/>профиль</a>
+                      
+                      <button
+                        @click="handleLogout"
+                        class="text-base-content btn btn-error text-error-content"
+                      > <Icon name="i-heroicons-arrow-left-start-on-rectangle"/>
+                        выход
+                      </button>
+                    </div>
             </template>
           </ClientOnly>
         </div>

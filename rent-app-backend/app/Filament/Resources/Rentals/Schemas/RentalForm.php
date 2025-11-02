@@ -29,7 +29,13 @@ class RentalForm
                 TextInput::make('number_of_guests')
                     ->required()
                     ->numeric(),
-                TextInput::make('status')
+                Select::make('status')
+                ->options([
+                    'pending'=> 'Ожидание',
+                    'confirmed'=> 'Подтверждено',
+                    'rejected' => 'Отклонено',
+                    'cancelled' => 'Отменено'
+                ])
                     ->required()
                     ->default('pending'),
             ]);
