@@ -1,11 +1,27 @@
 <template>
-  <div class="min-h-screen bg-base-100">
+  <div 
+  class="hero min-h-screen relative overflow-hidden"
+  style="background-image: url(/img/hero.jpg); background-size: cover; background-position: center; background-attachment: fixed;"
+>
+  <div class="absolute inset-0 bg-linear-to-b from-black/70 to-transparent"></div>
+  <div class="hero-overlay bg-black/60"></div>
+  <div class="hero-content text-neutral-content text-center relative z-10 pt-20 md:pt-0">
+    <div class="max-w-md">
+      <h1 class="mb-5 text-3xl md:text-5xl font-bold text-left md:text-center">WoodRent</h1>
+      <p class="mb-5 text-md md:text-lg text-left md:text-center">
+        это уникальное место в 40 минутах от Набережных Челнов...
+      </p>
+      <NuxtLink to="#houses" class="btn btn-primary btn-lg shadow-xl">
+        Посмотреть дома
+      </NuxtLink>
+    </div>
+  </div>
+</div>
     <!-- HERO SECTION -->
-    <section class="py-20 bg-base-100">
+    <!--  <section class="py-20 bg-base-100">
   <div class="container mx-auto px-4 max-w-7xl">
     <div class="grid md:grid-cols-2 gap-12 items-center">
 
-      <!-- Текст -->
       <div class="order-2 md:order-1 space-y-6">
         <h1 class="text-2xl md:text-5xl font-bold text-primary leading-tight">
           Аренда уюта<br>в Подмосковье
@@ -23,7 +39,6 @@
         </div>
       </div>
 
-      <!-- Фото -->
       <div class="order-1 md:order-2">
         <div class="relative group">
           <NuxtImg
@@ -42,21 +57,62 @@
     </div>
   </div>
 </section>
+-->
 
     <!-- СПИСОК ДОМОВ -->
- <section id="houses" class="py-20 bg-base-200">
-  <div class="container mx-auto px-4">
-    <div class="text-center mb-12">
-      <h2 class="text-2xl md:text-4xl font-bold text-primary">Наши эксклюзивные дома</h2>
-      <p class="text-md md:text-lg text-base-content/70 mt-4">Всего 2 шедевра — выбирайте свой</p>
-    </div>
+    <section id="houses" class="py-20 bg-base-200">
+      <div class="container mx-auto px-4">
+        <!--
+        <div class="text-center mb-12">
+          <h2 class="text-2xl md:text-4xl font-bold text-primary">Наши эксклюзивные дома</h2>
+          <p class="text-md md:text-lg text-base-content/70 mt-4">Всего 2 шедевра — выбирайте свой</p>
+        </div>
+        -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 max-w-5xl mx-auto">
+          <HouseCard v-for="house in houses" :key="house.id" :house="house" />
+        </div>
+      </div>
+    </section>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-10 max-w-5xl mx-auto">
-      <HouseCard v-for="house in houses" :key="house.id" :house="house" />
+    <div class="t1032__content" style="border-color: #354d30;border-width: 1px;">
+      <div class="t1032__wrapper" style="height: auto;">
+        <div class="t-card__title t-name t-name_xl" field="li_title__6610515499060" style="height: auto;">
+          <div style="font-size: 18px;" data-customstyle="yes"><strong
+              style="color: rgb(53, 77, 48); font-weight: 700; font-family: Montserrat;">ПРАВИЛА БРОНИРОВАНИЯ</strong>
+          </div>
+        </div>
+        <div class="t-card__descr t-text" field="li_descr__6610515499060" style="height: auto;">
+          <p style="text-align: left;"><span
+              style="font-family: Montserrat; font-weight: 500; font-size: 14px; color: rgb(53, 77, 48);">/ заезд с
+              15:00; </span></p>
+          <p style="text-align: left;"><span
+              style="font-family: Montserrat; font-weight: 500; font-size: 14px; color: rgb(53, 77, 48);">/ выезд до
+              12:00; </span></p>
+          <p style="text-align: left;"><span
+              style="font-family: Montserrat; font-weight: 500; font-size: 14px; color: rgb(53, 77, 48);">/ бронирование
+              при 100% оплате;</span></p><br>
+          <p style="text-align: left;"><span
+              style="font-family: Montserrat; font-size: 14px; color: rgb(53, 77, 48);">Ранее чем за 2 дня до
+              заезда</span></p>
+          <p style="text-align: left;"><span style="font-family: Montserrat; font-size: 14px; color: rgb(53, 77, 48);">—
+              Отмена — без потери предоплаты</span></p>
+          <p style="text-align: left;"><span style="font-family: Montserrat; font-size: 14px; color: rgb(53, 77, 48);">—
+              Перенос возможен (не более 1 раза)</span></p><br>
+          <p style="text-align: left;"><span
+              style="font-family: Montserrat; font-size: 14px; color: rgb(53, 77, 48);">За 1 день до заезда</span></p>
+          <p style="text-align: left;"><span style="font-family: Montserrat; font-size: 14px; color: rgb(53, 77, 48);">—
+              Отмена невозможна</span></p>
+          <p style="text-align: left;"><span style="font-family: Montserrat; font-size: 14px; color: rgb(53, 77, 48);">—
+              Возможен только перенос (1 раз)</span></p><br>
+          <p style="text-align: left;"><span style="font-family: Montserrat; font-size: 14px; color: rgb(53, 77, 48);">В
+              день заезда</span></p>
+          <p style="text-align: left;"><span style="font-family: Montserrat; font-size: 14px; color: rgb(53, 77, 48);">—
+              Отмена и перенос невозможны</span></p>
+          <p style="text-align: left;"><span style="font-family: Montserrat; font-size: 14px; color: rgb(53, 77, 48);">—
+              Предоплата не возвращается</span></p>
+        </div>
+      </div>
     </div>
-  </div>
-</section>
-
     <!-- ПРЕИМУЩЕСТВА -->
     <section class="py-20 bg-base-100 text-base-content">
       <div class="container mx-auto px-4 text-center">
@@ -86,7 +142,6 @@
         </div>
       </div>
     </section>
-  </div>
 </template>
 
 <script setup lang="ts">
@@ -102,6 +157,4 @@ onMounted(async () => {
 
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

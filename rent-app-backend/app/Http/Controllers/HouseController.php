@@ -186,10 +186,18 @@ public function createBooking(Request $request, $id)
     ]);
 }
 
+public function userBookings(Request $request)
+    {
+        $user = auth('sanctum')->id();
+        $bookings = Rental::where('user_id', $user)
+            ->with('house') // Загрузи связанные дома (name, photos и т.д.)
+            ->orderBy('start_date', 'desc')
+            ->get();
 
-    // Опционально: Отправьте email пользователю/админу (используйте Mail::to() или Queue)
-    // Mail::to(auth()->user()->email)->send(new BookingConfirmation($rental));
+        return response()->json($bookings);
+    }
 
+   
    
 }
 

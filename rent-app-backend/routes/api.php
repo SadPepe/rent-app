@@ -22,6 +22,7 @@ Route::post('/house-show/{id}/book-check', [HouseController::class, 'checkAvaila
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/house-show/{id}/book-create', [HouseController::class, 'createBooking']);
+    Route::get('/user/bookings', [HouseController::class, 'userBookings']);
 });
 
 Route::post('/register' , [AuthController::class, 'register']);

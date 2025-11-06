@@ -1,72 +1,57 @@
 <template>
-  <article
-    class="relative bg-base-100 text-base-content rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform h-full flex flex-col"
-  >
-    <!-- Фото -->
-    <div class="relative h-64 overflow-hidden">
-      <NuxtImg
-        :src="mainPhoto"
-        :alt="house.name"
-        class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-        loading="lazy"
-        placeholder="/img/placeholder.jpg"
-      />
-    </div>
+  <div class="card bg-base-100 shadow-xl hover:shadow-2xl transition-shadow duration-300">
+    <!-- Опционально: фото дома -->
+    <figure class="">
+      <NuxtImg :src="house.photos[0]" alt="Дом" class="rounded-t-xl w-full h-48 object-cover" />
+    </figure>
 
-    <!-- Контент -->
-    <div class="p-5 flex-1 flex flex-col">
-      <h3 class="text-xl font-bold text-primary mb-2 line-clamp-1">
+    <div class="card-body p-4">
+      <!-- Название -->
+      <h2 class="card-title text-xl font-bold text-primary">
         {{ house.name }}
-      </h3>
+      </h2>
 
-      <p class="text-sm text-base-content/70 flex items-center gap-1 mb-3">
-        <Icon name="i-heroicons-map-pin" class="w-4 h-4" />
-        {{ house.address }}
+      <!-- Описание -->
+      <p class="text-base-content/70 text-sm line-clamp-3">
+        {{ house.description }}
       </p>
 
-      <!-- Удобства (иконки) -->
-      <div class="flex gap-3 mb-4 text-base-content/60">
-        <icon-tooltip
-          icon="i-heroicons-wifi"
-          label="Wi-Fi"
-          :active="hasAmenity('Wi-Fi')"
-        />
-        <icon-tooltip
-          icon="i-heroicons-car"
-          label="Парковка"
-          :active="hasAmenity('Парковка')"
-        />
-        <icon-tooltip
-          icon="i-heroicons-fire"
-          label="Камин"
-          :active="hasAmenity('Камин')"
-        />
-        <icon-tooltip
-          icon="i-heroicons-sparkles"
-          label="Бассейн"
-          :active="hasAmenity('Бассейн')"
-        />
+      <!-- Удобства (из массива) -->
+      <div class="mt-3">
+        <h3 class="font-semibold text-sm mb-1 text-base-content">Удобства:</h3>
+        <div class="flex flex-wrap gap-2">
+          <div v-for="amenity in house.amenities" :key="amenity" class="badge badge-secondary text-secondary-content badge-sm">
+            {{ amenity }}
+          </div>
+        </div>
       </div>
 
-      <!-- Цена и инфо -->
-      <div class="flex justify-between items-end mt-auto">
-        <div>
-          <p class="text-2xl font-bold text-primary">
+      <!-- Цены: будни / выходные -->
+      <div class="flex justify-center mt-2 gap-4">
+        <div class="flex w-full">
+          <div class="card bg-base-200 rounded-box grid grow place-items-center">
+          <p class="text-xs text-base-content/70">Будни</p>
+          <p class="text-lg font-bold text-primary">
             {{ house.price_per_day }} ₽
           </p>
-          <p class="text-xs text-base-content/60">за ночь</p>
         </div>
-        <div class="text-right text-sm">
-          <p>{{ house.bedrooms }} спальни • {{ house.max_guests }} гостей</p>
+          <div class="divider divider-horizontal"></div>
+          <div class="card bg-base-200 rounded-box grid grow place-items-center">
+          <p class="text-xs text-base-content/70">Будни</p>
+          <p class="text-lg font-bold text-primary">
+            {{ house.price_per_day }} ₽
+          </p>
         </div>
-        <div>
-          <NuxtLink :to="`/house-show/${house.id}`" class="btn btn-primary">
-              подробнее
+        </div>
+        <!-- Кнопка "Подробнее" -->
+        <div class="card-actions justify-end mt-5">
+          <NuxtLink :to="`/house-show/${house.id}`" class="btn btn-primary btn-sm w-full sm:btn-md sm:w-auto">
+            Подробнее
           </NuxtLink>
         </div>
       </div>
     </div>
-  </article>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -78,6 +63,7 @@ const props = defineProps<{
     id: number;
     name: string;
     address: string;
+    description: string;
     price_per_day: number;
     bedrooms: number;
     max_guests: number;
